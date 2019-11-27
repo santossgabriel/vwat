@@ -1,34 +1,36 @@
 using System.Collections.Generic;
 using System.Linq;
+using VWAT.Models;
 
-namespace VWAT.Models
+namespace VWAT.Services
 {
   public class CommentService
   {
-    private List<CommentViewModel> _comments;
-
-    public CommentService()
+    private AppDbContext _context;
+    
+    public CommentService(AppDbContext context)
     {
-      _comments = new List<CommentViewModel>();
+      _context = context;
     }
 
     public void Add(string description)
     {
       if (!string.IsNullOrEmpty(description))
       {
-        int id = _comments.Any() ? _comments.Select(p => p.Id).Max() : 1;
-        _comments.Add(new CommentViewModel() { Id = id, Description = description });
+        _context.Comments.Add(new Comment() { Description = description });
+        _context.SaveChanges();
       }
     }
 
-    public List<CommentViewModel> GetAll()
+    public List<Comment> GetAll()
     {
-      return _comments.ToList();
+      return _context.Comments.ToList();
     }
 
     public void Remove(int id)
     {
-      _comments.Remove(_comments.Find(p => p.Id == id));
+      _context.Comments.Remove(_context.Comments.Find(id));
+      _context.SaveChanges();
     }
   }
 }

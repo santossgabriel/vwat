@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using VWAT.Models;
+using VWAT.Services;
 
 namespace VWAT.Controllers
 {
@@ -22,8 +22,7 @@ namespace VWAT.Controllers
         [HttpPost]
         public IActionResult SaveReflected(string comment)
         {
-            _service.Add(comment);
-            ViewBag.Comments = _service.GetAll();
+            ViewBag.Comment = comment;
             return View("XssReflected");
         }
 
@@ -32,6 +31,14 @@ namespace VWAT.Controllers
         {
             ViewBag.Comments = _service.GetAll();
             return View();
+        }
+
+        [HttpPost]
+        public IActionResult SaveStorage(string comment)
+        {
+            _service.Add(comment);
+            ViewBag.Comments = _service.GetAll();
+            return View("XssStorage");
         }
     }
 }

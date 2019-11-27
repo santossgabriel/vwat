@@ -12,6 +12,7 @@
 
   <ItemGroup>
     <PackageReference Include="microsoft.aspnetcore.mvc.razor.runtimecompilation" Version="3.0.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="3.0.1" />
   </ItemGroup>
 
 </Project>

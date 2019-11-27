@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using VWAT.Models;
+using VWAT.Services;
 
 namespace VWAT
 {
@@ -18,9 +20,13 @@ namespace VWAT
 
     public void ConfigureServices(IServiceCollection services)
     {
+      var connectionString = "Host=172.18.0.2;Port=5432;Pooling=true;Database=app;User Id=app;Password=123";
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
-      services.AddSingleton<CommentService>(new CommentService());
+      services.AddDbContext<AppDbContext>(options =>
+        options.UseNpgsql(connectionString));
+
+      services.AddScoped<CommentService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
