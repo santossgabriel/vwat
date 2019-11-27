@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -20,6 +21,13 @@ namespace VWAT
 
     public void ConfigureServices(IServiceCollection services)
     {
+
+      services.AddAuthentication(options =>
+      {
+        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+      })
+      .AddCookie();
+
       var connectionString = "Host=172.18.0.2;Port=5432;Pooling=true;Database=app;User Id=app;Password=123";
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
@@ -40,6 +48,8 @@ namespace VWAT
         app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
       }
+
+      app.UseAuthentication();
 
       app.UseStaticFiles();
       app.UseRouting();

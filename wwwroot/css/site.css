@@ -10,10 +10,10 @@ body {
 
 .toolbar {
     display: flex;
+    flex-direction: row;
     justify-content: center;
     align-content: center;
     align-items: center;
-    flex-direction: column;
     height: 70px;
     background-color: #333;
     box-shadow: 5px 5px 5px black;
@@ -65,4 +65,8 @@ body {
     padding-top: 30px;
     padding-bottom: 30px;
     margin-left: 30px;
+}
+
+.link {
+    margin-left: 20px;
 }
