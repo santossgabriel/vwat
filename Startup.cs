@@ -22,13 +22,14 @@ namespace VWAT
     public void ConfigureServices(IServiceCollection services)
     {
 
-      services.AddAuthentication(options =>
+      services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+      .AddCookie(options =>
       {
-        options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-      })
-      .AddCookie();
+        options.LoginPath = "/Home/Index";
+        options.LogoutPath = "/Home/Index";
+      });
 
-      var connectionString = "Host=172.18.0.2;Port=5432;Pooling=true;Database=app;User Id=app;Password=123";
+      var connectionString = "Host=127.0.0.1;Port=5432;Pooling=true;Database=vwat;User Id=vwat;Password=123";
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
       services.AddDbContext<AppDbContext>(options =>
@@ -49,6 +50,7 @@ namespace VWAT
         app.UseHsts();
       }
 
+      app.UseCookiePolicy(new CookiePolicyOptions() { HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None });
       app.UseAuthentication();
 
       app.UseStaticFiles();
