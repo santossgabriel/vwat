@@ -29,7 +29,7 @@ namespace VWAT
         options.LogoutPath = "/Home/Index";
       });
 
-      var connectionString = "Host=127.0.0.1;Port=5432;Pooling=true;Database=vwat;User Id=vwat;Password=123";
+      var connectionString = "Host=172.18.0.2;Port=5432;Pooling=true;Database=vwat;User Id=vwat;Password=123";
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
       services.AddDbContext<AppDbContext>(options =>

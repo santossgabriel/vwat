@@ -17,19 +17,19 @@ namespace VWAT.Services
     {
       if (!string.IsNullOrEmpty(description))
       {
-        _context.Comments.Add(new Comment() { Description = description });
+        _context.Comment.Add(new Comment() { Description = description });
         _context.SaveChanges();
       }
     }
 
     public List<Comment> GetAll()
     {
-      return _context.Comments.ToList();
+      return _context.Comment.ToList();
     }
 
     public void Remove(int id)
     {
-      _context.Comments.Remove(_context.Comments.Find(id));
+      _context.Comment.Remove(_context.Comment.Find(id));
       _context.SaveChanges();
     }
   }

@@ -7,7 +7,10 @@ namespace VWAT.Services
   public class AppDbContext : DbContext
   {
     private readonly ILoggerFactory _loggerFactory;
-    public DbSet<Comment> Comments { get; set; }
+
+    public DbSet<Comment> Comment { get; set; }
+
+    public DbSet<User> User { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
     {
