@@ -1,8 +1,6 @@
 import { combineReducers } from 'redux'
-import { RunningLogReducer } from './runningLogReducer'
-import { PublishLogReducer } from './publishLogReducer'
+import { userReducer } from './userReducer'
 
 export default combineReducers({
-    runningLogState: RunningLogReducer,
-    publishLogState: PublishLogReducer,
+    user: userReducer
 })

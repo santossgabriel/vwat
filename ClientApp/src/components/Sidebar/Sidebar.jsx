@@ -1,8 +1,12 @@
 import React from 'react'
 import { Container, MenuItem } from './styles'
 import { ROUTES } from '../../utils'
+import { useSelector } from 'react-redux'
 
 export function Sidebar() {
+
+    const user = useSelector(state => state.user)
+
     return (
         <Container>
             <MenuItem to={ROUTES.BRUTE_FORCE}>Brute Force</MenuItem>
@@ -16,6 +20,9 @@ export function Sidebar() {
             <MenuItem to={ROUTES.SQL_INJECTION}>Sql Injection</MenuItem>
             <MenuItem to={ROUTES.XSS_REFLECTED}>XSS (Reflected)</MenuItem>
             <MenuItem to={ROUTES.XSS_STORED}>XSS (Stored)</MenuItem>
+            <div hidden={!user.email}>
+                <small style={{ color: 'white', fontSize: '12px', marginLeft: '10px', marginTop: '10px' }}>Logged: {user.email}</small>
+            </div>
         </Container>
     )
 }
