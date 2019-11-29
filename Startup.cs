@@ -1,11 +1,12 @@
-using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using VWAT.Models;
+using Microsoft.IdentityModel.Tokens;
+
 using VWAT.Services;
 
 namespace VWAT
@@ -21,21 +22,34 @@ namespace VWAT
 
     public void ConfigureServices(IServiceCollection services)
     {
+      var configService = new ConfigService { JwtKey = Configuration["JwyKey"] };
 
-      services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-      .AddCookie(options =>
+      services.AddAuthentication(options =>
       {
-        options.LoginPath = "/Home/Index";
-        options.LogoutPath = "/Home/Index";
+        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      })
+      .AddJwtBearer(options =>
+      {
+        options.RequireHttpsMetadata = false;
+        options.SaveToken = true;
+        options.TokenValidationParameters = new TokenValidationParameters
+        {
+          ValidateIssuerSigningKey = true,
+          IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configService.JwtKey)),
+          ValidateIssuer = false,
+          ValidateAudience = false
+        };
       });
 
-      var connectionString = "Host=172.18.0.2;Port=5432;Pooling=true;Database=vwat;User Id=vwat;Password=123";
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
       services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(connectionString));
+        options.UseNpgsql(Configuration["ConnectionString"]));
 
       services.AddScoped<CommentService>();
+      services.AddScoped<UserService>();
+      services.AddSingleton<ConfigService>(configService);
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -50,7 +64,6 @@ namespace VWAT
         app.UseHsts();
       }
 
-      app.UseCookiePolicy(new CookiePolicyOptions() { HttpOnly = Microsoft.AspNetCore.CookiePolicy.HttpOnlyPolicy.None });
       app.UseAuthentication();
 
       app.UseStaticFiles();

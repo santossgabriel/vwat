@@ -1,0 +1,20 @@
+.form-group input {
+  border-radius: 5px;
+  height: 22px;
+  border: none;
+  margin: 0 10px;
+}
+
+.form-group span {
+  font-size: 16px;
+}
+
+.btn {
+  padding: 4px;
+  border: none;
+  border-radius: 4px;
+}
+
+.btn:disabled {
+  opacity: .7;
+}

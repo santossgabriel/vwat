@@ -2,6 +2,8 @@ import React from 'react'
 import { Provider } from 'react-redux'
 import { HashRouter, Route } from 'react-router-dom'
 
+import './App.css'
+
 import { Sidebar, Toolbar } from './components'
 import Store from './store'
 import { AppContainer, CoreAppContainer, BaseContainer } from './components/styles'

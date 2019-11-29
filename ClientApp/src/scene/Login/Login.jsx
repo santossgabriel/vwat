@@ -14,14 +14,15 @@ export function Login() {
   return (
     <div>
       <h3>Login</h3>
-      <br />
-      <span>Name:</span>
-      <input onChange={e => setName(e.target.value)} />
-      <br />
-      <span>Password:</span>
-      <input onChange={e => setPassword(e.target.value)} />
-      <br />
-      <button disabled={!name || !password} onClick={() => login()}>LOGIN</button>
+      <div className="form-group">
+        <span>Name:</span>
+        <input onChange={e => setName(e.target.value)} />
+      </div>
+      <div className="form-group">
+        <span>Password:</span>
+        <input onChange={e => setPassword(e.target.value)} />
+      </div>
+      <button className="btn" disabled={!name || !password} onClick={() => login()}>LOGIN</button>
     </div >
   )
 }
