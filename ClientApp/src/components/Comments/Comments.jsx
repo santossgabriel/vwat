@@ -5,7 +5,7 @@ const customPropsControledByAttacker = {
   dangerouslySetInnerHTML: {
     "__html": "isso ai<img onerror=alert('teste') src='invalid_url' />"
   }
-};
+}
 
 export function Comments({ comments, onRemove }) {
 

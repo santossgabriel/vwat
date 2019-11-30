@@ -3,6 +3,7 @@
   height: 22px;
   border: none;
   margin: 0 10px;
+  padding: 0 4px;
 }
 
 .form-group span {
@@ -13,8 +14,15 @@
   padding: 4px;
   border: none;
   border-radius: 4px;
+  cursor: pointer;
+  transition: 200ms;
+}
+
+.btn:hover {
+  background-color: #ccc;
 }
 
 .btn:disabled {
-  opacity: .7;
+  opacity: .9;
+  background-color: #ddd;
 }
