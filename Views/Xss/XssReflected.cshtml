@@ -1,9 +1,9 @@
-<h2 class="title">Cross-site Scripting (Reflected)</h2>
+<h2 class="page-title">Cross-site Scripting (Reflected)</h2>
 <form asp-controller="Xss" asp-action="SaveReflected">
     <span>Comment:</span>
     <input name="comment" />
     <br />
     <button>ADD</button>
     <br />
-    <h2>Search Results for "@Html.Raw(@ViewBag.Comment)"</h2>
+    <h4>Search Results for "@Html.Raw(@ViewBag.Comment)"</h4>
 </form>

@@ -8,9 +8,20 @@
 </head>
 <body>
     <header class="toolbar">
-        <span>Vulnerable Web Application for Testing</span>
-        <a class="link" asp-area="" asp-controller="Home" asp-action="Login">Login</a>
-        <a class="link" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+        <span class="app-title">Vulnerable Web Application for Testing</span>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <span class="logged-name">@User.Identity.Name</span>
+            <a class="btn" asp-area="" asp-controller="Home" asp-action="Logout">Logout</a>
+        }
+        else
+        {
+            <form asp-action="Login" class="login-form">
+                <input name="name" placeholder="Name">
+                <input type="password" name="password" placeholder="Password">
+                <button class="btn">Login</button>
+            </form>
+        }
     </header>
     <div class="root-container">
         <section class="sidebar">

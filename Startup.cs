@@ -1,11 +1,9 @@
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.IdentityModel.Tokens;
 
 using VWAT.Services;
 
@@ -24,26 +22,35 @@ namespace VWAT
     {
       var configService = new ConfigService { JwtKey = Configuration["JwyKey"] };
 
-      services.AddAuthentication(options =>
-      {
-        options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-        options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-      })
-      .AddJwtBearer(options =>
-      {
-        options.RequireHttpsMetadata = false;
-        options.SaveToken = true;
-        options.TokenValidationParameters = new TokenValidationParameters
+      services.AddAuthentication("CookieAuthentication")
+        .AddCookie("CookieAuthentication", config =>
         {
-          ValidateIssuerSigningKey = true,
-          IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configService.JwtKey)),
-          ValidateIssuer = false,
-          ValidateAudience = false
-        };
-      });
+          config.LoginPath = "/Home/Index";
+          config.Cookie.HttpOnly = false;
+        });
+
+      // services.AddAuthentication(options =>
+      // {
+      //   options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+      //   options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+      // })
+      // .AddJwtBearer(options =>
+      // {
+      //   options.RequireHttpsMetadata = false;
+      //   options.SaveToken = true;
+      //   options.TokenValidationParameters = new TokenValidationParameters
+      //   {
+      //     ValidateIssuerSigningKey = true,
+      //     IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.ASCII.GetBytes(configService.JwtKey)),
+      //     ValidateIssuer = false,
+      //     ValidateAudience = false
+      //   };
+      // });
+
 
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
+
       services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(Configuration["ConnectionString"]));
 
@@ -64,10 +71,10 @@ namespace VWAT
         app.UseHsts();
       }
 
-      app.UseAuthentication();
-
       app.UseStaticFiles();
       app.UseRouting();
+
+      app.UseAuthentication();
       app.UseAuthorization();
 
       app.UseEndpoints(endpoints =>

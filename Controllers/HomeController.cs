@@ -29,16 +29,21 @@ namespace VWAT.Controllers
     public IActionResult Login(string name, string password)
     {
       var claims = new List<Claim>() { new Claim(ClaimTypes.Role, "Administrator"), new Claim(ClaimTypes.Name, name) };
-      var claimsPrincipal = new ClaimsPrincipal(new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme));
-      // Challenge(CookieAuthenticationDefaults.AuthenticationScheme);
-      return SignIn(claimsPrincipal, new AuthenticationProperties(), CookieAuthenticationDefaults.AuthenticationScheme);
+      var identity = new ClaimsIdentity(claims, "User Identity");
+      var userPrincipal = new ClaimsPrincipal(new [] { identity });
+
+      HttpContext.SignInAsync(userPrincipal);
+      return RedirectToAction("Index", "Home");
+
+      // return SignIn(userPrincipal, new AuthenticationProperties(), CookieAuthenticationDefaults.AuthenticationScheme);
       // return View("Index");
     }
 
     public IActionResult Logout()
     {
-      return SignOut(CookieAuthenticationDefaults.AuthenticationScheme);
-      // return View("Index");
+      var name = User.Identity.Name;
+      HttpContext.SignOutAsync();
+      return RedirectToAction("Index", "Home");
     }
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
