@@ -1,17 +1,17 @@
 <h2 class="title">Cross-site Scripting (Storage)</h2>
-<form asp-controller="Xss" asp-action="SaveStorage">
-    <span>Comment:</span>
-    <input name="comment" />
-    <br />
-    <button>Search</button>
-    <br />
-    <div>@ViewBag.Comment</div>
-    <br />
-    <h2>Search Results for "@Html.Raw(@ViewBag.Comment)"</h2>
-    <br />
-    <br />
-    @foreach (var comment in ViewBag.Comments)
-    {
-      <h2>@Html.Raw(comment.Description)</h2>
-    }
+<form asp-action="SaveStorage" style="margin-top:20px">
+  <input name="comment" />
+  <button class="btn">save comment</button>
+  <br />
+  <br />
 </form>
+<div class="comment-box">
+  @foreach (var comment in ViewBag.Comments)
+  {
+    <div class="comment-line">
+      <span>@Html.Raw($"{comment.Id} - {comment.Description}")</span>
+      <a asp-action="Edit" asp-route-id="@comment.Id">Edit</a>
+      <a asp-action="Delete" asp-route-id="@comment.Id" class="btn warn">REMOVE</a>
+    </div>
+  }
+</div>

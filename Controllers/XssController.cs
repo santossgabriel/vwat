@@ -40,5 +40,15 @@ namespace VWAT.Controllers
             ViewBag.Comments = _service.GetAll();
             return View("XssStorage");
         }
+
+        public IActionResult Delete(int id)
+        {
+            if(id == 0)
+                return NotFound();
+
+            _service.Remove(id);
+            ViewBag.Comments = _service.GetAll();
+            return View("XssStorage");
+        }
     }
 }
