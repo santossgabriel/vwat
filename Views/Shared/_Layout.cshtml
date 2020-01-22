@@ -17,8 +17,8 @@
         else
         {
             <form asp-action="Login" class="login-form">
-                <input name="name" placeholder="Name">
-                <input type="password" name="password" placeholder="Password">
+                <input class="form-input" name="name" placeholder="Name">
+                <input class="form-input" type="password" name="password" placeholder="Password">
                 <button class="btn">Login</button>
             </form>
         }
@@ -31,20 +31,16 @@
             <a asp-area="" asp-controller="Home" asp-action="Privacy">File Inclusion</a>
             <a asp-area="" asp-controller="Home" asp-action="Privacy">File Upload</a>
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Home</a>
-            <a asp-area="" asp-controller="Home" asp-action="Login">Login</a>
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Session Hijaking</a>
             <a asp-area="" asp-controller="Home" asp-action="Privacy">Sql Injection</a>
             <a asp-area="" asp-controller="Xss" asp-action="XssReflected">XSS (Reflected)</a>
             <a asp-area="" asp-controller="Xss" asp-action="XssStorage">XSS (Stored)</a>
+            <div class="footer">
+                &copy; 2020 - VWAT
+            </div>
         </section>
         <main role="main" class="base-container">
             @RenderBody()
-            
-            <footer class="border-top footer text-muted">
-                <div class="container">
-                    &copy; 2019 - VWAT - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-                </div>
-            </footer>
         </main>
     </div>
     <script src="~/js/site.js" asp-append-version="true"></script>

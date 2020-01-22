@@ -128,11 +128,18 @@ body {
     margin-left: 10px;
 }
 
-.login-form input {
+.form-input {
     width: 100px;
     font-size: 12px;
     border-radius: 5px;
     height: 22px;
     border: none;
     padding: 0 4px;
+}
+
+.sidebar .footer {
+    color: white;
+    text-align: center;
+    font-size: 14px;
+    margin-top: 10px;
 }
