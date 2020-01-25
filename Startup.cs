@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ namespace VWAT
         {
           config.LoginPath = "/Home/Index";
           config.Cookie.HttpOnly = false;
+          config.ExpireTimeSpan = TimeSpan.FromMinutes(30);
         });
 
       // services.AddAuthentication(options =>

@@ -1,12 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using VWAT.Models;
 using VWAT.Services;
-using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
-using System.Linq;
 using System.Security.Claims;
 using System.Text;
-using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 
 namespace VWAT.Controllers
@@ -39,7 +36,7 @@ namespace VWAT.Controllers
       {
         Subject = new ClaimsIdentity(new Claim[]
           {
-                    new Claim(ClaimTypes.Name, user.Id.ToString())
+            new Claim(ClaimTypes.Name, user.Id.ToString())
           }),
         Expires = System.DateTime.UtcNow.AddDays(7),
         SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)

@@ -22,9 +22,9 @@ namespace VWAT.Services
       }
     }
 
-    public List<Comment> GetAll()
+    public IEnumerable<Comment> GetAll()
     {
-      return _context.Comment.ToList();
+      return _context.Comment;
     }
 
     public void Remove(int id)
