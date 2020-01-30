@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using University.Config;
 using University.Services;
 
 namespace University
@@ -55,9 +56,15 @@ namespace University
       services.AddDbContext<AppDbContext>(options =>
         options.UseNpgsql(Configuration["ConnectionString"]));
 
+      var emailConfig = new EmailConfig();
+      Configuration.GetSection("EmailConfig").Bind(emailConfig);
+
+      services.AddSingleton<ConfigService>(configService);
+      services.AddSingleton<EmailConfig>(emailConfig);
+      
       services.AddScoped<CommentService>();
       services.AddScoped<UserService>();
-      services.AddSingleton<ConfigService>(configService);
+      services.AddScoped<MailService>();
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
