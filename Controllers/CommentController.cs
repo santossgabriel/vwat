@@ -11,7 +11,7 @@ namespace VWAT.Controllers
     public CommentController(CommentService service) => _service = service;
 
     [HttpPost]
-    public IActionResult Post([FromBody]Comment comment)
+    public IActionResult Post([FromBody] CommentModel comment)
     {
       if (!string.IsNullOrEmpty(comment?.Description))
       {

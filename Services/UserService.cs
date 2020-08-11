@@ -1,20 +1,22 @@
 using System.Linq;
 using VWAT.Models;
+using VWAT.Repositories;
 
 namespace VWAT.Services
 {
   public class UserService
   {
-    private AppDbContext _context;
-    
-    public UserService(AppDbContext context)
+    private UserRepository _userRepository;
+
+    public UserService(UserRepository userRepository)
     {
-      _context = context;
+      _userRepository = userRepository;
     }
 
-    public User Login(string name, string password)
+    public UserModel Login(string email, string password)
     {
-      return _context.User.FirstOrDefault(p => p.Name == name && p.Password == password)?.WithoutPassword();
+      var user = _userRepository.FindByEmail(email);
+      return user?.Password == password ? user.WithoutPassword() : null;
     }
   }
 }

@@ -1,36 +1,33 @@
 using System.Collections.Generic;
 using System.Linq;
 using VWAT.Models;
+using VWAT.Repositories;
 
 namespace VWAT.Services
 {
   public class CommentService
   {
-    private AppDbContext _context;
-    
-    public CommentService(AppDbContext context)
+    private CommentRepository _commentRepository;
+
+    public CommentService(CommentRepository commentRepository)
     {
-      _context = context;
+      _commentRepository = commentRepository;
     }
 
     public void Add(string description)
     {
       if (!string.IsNullOrEmpty(description))
       {
-        _context.Comment.Add(new Comment() { Description = description });
-        _context.SaveChanges();
+        _commentRepository.Add(new CommentModel()
+        {
+          Description = description,
+          Date = System.DateTime.Now
+        });
       }
     }
 
-    public IEnumerable<Comment> GetAll()
-    {
-      return _context.Comment;
-    }
+    public IEnumerable<CommentModel> GetAll() => _commentRepository.GetAll();
 
-    public void Remove(int id)
-    {
-      _context.Comment.Remove(_context.Comment.Find(id));
-      _context.SaveChanges();
-    }
+    public void Remove(long id) => _commentRepository.Remove(id);
   }
 }

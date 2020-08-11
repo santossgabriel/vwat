@@ -5,6 +5,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
 using Microsoft.IdentityModel.Tokens;
+using VWAT.Config;
 
 namespace VWAT.Controllers
 {
@@ -12,18 +13,18 @@ namespace VWAT.Controllers
   public class TokenController : Controller
   {
     private UserService userService;
-    private ConfigService configService;
+    private AppConfig appConfig;
 
-    public TokenController(UserService userService, ConfigService configService)
+    public TokenController(UserService userService, AppConfig appConfig)
     {
       this.userService = userService;
-      this.configService = configService;
+      this.appConfig = appConfig;
     }
 
     [HttpPost]
-    public IActionResult Post([FromBody]User user)
+    public IActionResult Post([FromBody] UserModel user)
     {
-      User login = null;
+      UserModel login = null;
       if (!string.IsNullOrEmpty(user.Name) && !string.IsNullOrEmpty(user.Password))
         login = userService.Login(user.Name, user.Password);
       if (login is null)
@@ -31,7 +32,7 @@ namespace VWAT.Controllers
 
       var tokenHandler = new JwtSecurityTokenHandler();
 
-      var key = Encoding.ASCII.GetBytes(configService.JwtKey);
+      var key = Encoding.ASCII.GetBytes(appConfig.JwtKey);
       var tokenDescriptor = new SecurityTokenDescriptor
       {
         Subject = new ClaimsIdentity(new Claim[]

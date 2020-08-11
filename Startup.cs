@@ -1,12 +1,12 @@
 using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-
 using VWAT.Services;
+using VWAT.Repositories;
+using VWAT.Config;
 
 namespace VWAT
 {
@@ -21,8 +21,6 @@ namespace VWAT
 
     public void ConfigureServices(IServiceCollection services)
     {
-      var configService = new ConfigService { JwtKey = Configuration["JwyKey"] };
-
       services.AddAuthentication("CookieAuthentication")
         .AddCookie("CookieAuthentication", config =>
         {
@@ -53,12 +51,13 @@ namespace VWAT
       services.AddControllersWithViews()
           .AddRazorRuntimeCompilation();
 
-      services.AddDbContext<AppDbContext>(options =>
-        options.UseNpgsql(Configuration["ConnectionString"]));
-
       services.AddScoped<CommentService>();
       services.AddScoped<UserService>();
-      services.AddSingleton<ConfigService>(configService);
+
+      services.AddScoped<CommentRepository>();
+      services.AddScoped<UserRepository>();
+
+      services.AddSingleton<AppConfig>(new AppConfig());
     }
 
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
