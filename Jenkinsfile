@@ -1,10 +1,11 @@
 pipeline {
     agent any
-    
-    stage('Build'){
-        steps {
-            echo 'Build VWAT project...'
-            dotnet build
+    stages {
+        stage('Build'){
+            steps {
+                echo 'Build VWAT project...'
+                sh 'dotnet build'
+            }
         }
-    }
+    }    
 }
